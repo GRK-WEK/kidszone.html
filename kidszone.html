@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUDY TRACKER</title>
+
+    <link rel="stylesheet" href="kidszone.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns/dist/date-fns.umd.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+
+    <!-- RADIAL MENU COMPONENT (Top-Right Corner) -->
+    <nav class="nav">
+      <!-- Hidden Checkbox to control menu state -->
+      <input id="menu" type="checkbox">
+      
+      <!-- Label acts as the visible 'Menu' button, using a hamburger icon -->
+      <label for="menu"><i class="fas fa-bars"></i></label>
+      
+      <!-- Menu List - Content updated to match the tracker's links -->
+      <ul class="menu">
+        <li>
+          <a href="#graph">
+            <span>STUDY GRAPH</span>
+            <i class="fas fa-chart-line" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li>
+          <a href="#curious">
+            <span>GET CURIOUS</span>
+            <i class="fas fa-lightbulb" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li>
+          <a href="#contact">
+            <span>CONTACT US</span>
+            <i class="fas fa-envelope" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li>
+          <a href="#privacy">
+            <span>PRIVACY POLICY</span>
+            <i class="fas fa-shield-alt" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li>
+          <a href="#search">
+            <span>ENJOY YOUR SEARCH</span>
+            <i class="fas fa-search" aria-hidden="true"></i> 
+          </a>
+        </li>
+      </ul>
+    </nav>
+    
+    <main>
+        <div class="chart-container">
+            <h1>STUDY GRAPH</h1>
+            <canvas id="timeChart"></canvas>
+
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate" onchange="filterChartData()">
+
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate" onchange="filterChartData()">
+
+            <div id="totalsContainer" style="margin-top: 20px; color: #e0e324; font-weight: bold; z-index: 1;">
+                <p id="totalLessons">Lessons: 0 minutes</p>
+                <p id="totalFriends">Jehovah's Friends: 0 minutes</p>
+                <p id="totalWriting">Writing: 0 minutes</p>
+                <p id="totalOutdoor">Outdoor: 0 minutes</p>
+            </div>
+            
+            <script>
+                // --- 1. DATA AND CHART SETUP ---
+                const originalData = [
+                  
+                    { date: '2025-11-25', lessons: 23, friends: 40, writing: 0, outdoor: 0 },
+                    { date: '2025-11-27', lessons: 25, friends: 0, writing: 0, outdoor: 0 }, 
+                    { date: '2025-11-28', lessons: 27, friends: 0, writing: 0, outdoor: 0 },
+                    { date: '2025-12-01', lessons: 30, friends: 1, writing: 0, outdoor: 0 },
+                    { date: '2025-12-02', lessons: 32, friends: 0, writing: 0, outdoor: 0 },
+                    { date: '2025-12-04', lessons: 33, friends: 1, writing: 0, outdoor: 0 },
+                    { date: '2025-12-05', lessons: 34, friends: 0, writing: 0, outdoor: 0 },
+                    { date: '2025-12-07', lessons: 35, friends: 0, writing: 0, outdoor: 0 },
+                    { date: '2025-12-09', lessons: 36, friends: 0, writing: 0, outdoor: 0 },
+                    { date: '2025-12-10', lessons: 0, friends: 0, writing: 0, outdoor: 0 },
+                    { date: '2025-12-11', lessons: 0, friends: 0, writing: 0, outdoor: 0 },
+                    { date: '2025-12-12', lessons: 0, friends: 0, writing: 0, outdoor: 0 },
+                    { date: '2025-12-13', lessons: 0, friends: 0, writing: 0, outdoor: 0 },
+                    { date: '2025-12-14', lessons: 0, friends: 0, writing: 0, outdoor: 0 },
+                    { date: '2025-12-15', lessons: 0, friends: 0, writing: 0, outdoor: 0 },
+                    { date: '2025-12-16', lessons: 0, friends: 0, writing: 0, outdoor: 0 },
+                    { date: '2025-12-17', lessons: 0, friends: 0, writing: 0, outdoor: 0 },
+                    { date: '2025-12-18', lessons: 0, friends: 0, writing: 0, outdoor: 0 },
+                    { date: '2025-12-19', lessons: 0, friends: 0, writing: 0, outdoor: 0 },
+                    { date: '2025-12-20', lessons: 0, friends: 0, writing: 0, outdoor: 0 },
+                    { date: '2025-12-21', lessons: 0, friends: 0, writing: 0, outdoor: 0 },
+                    { date: '2025-12-22', lessons: 0, friends: 0, writing: 0, outdoor: 0 },
+                    { date: '2025-12-23', lessons: 0, friends: 0, writing: 0, outdoor: 0 },
+                    { date: '2025-12-24', lessons: 0, friends: 0, writing: 0, outdoor: 0 },
+                    { date: '2025-12-25', lessons: 0, friends: 0, writing: 0, outdoor: 0 },
+                    { date: '2025-12-26', lessons: 0, friends: 0, writing: 0, outdoor: 0 },
+                    { date: '2025-12-27', lessons: 0, friends: 0, writing: 0, outdoor: 0 },
+                    { date: '2025-12-28', lessons: 0, friends: 0, writing: 0, outdoor: 0 },
+                    { date: '2025-12-29', lessons: 0, friends: 0, writing: 0, outdoor: 0 },
+                    { date: '2025-12-30', lessons: 0, friends: 0, writing: 0, outdoor: 0 },
+                    { date: '2025-11-31', lessons: 0, friends: 0, writing: 0, outdoor: 0 }, 
+                ];
+                let myTimeChart;
+
+                // --- 2. TIME CONVERSION UTILITY ---
+                function minutesToHours(minutes) {
+                    const h = Math.floor(minutes / 60);
+                    const m = minutes % 60;
+                    if (h > 0) {
+                        return `${minutes} minutes (${h} hr ${m} min)`;
+                    } else {
+                        return `${minutes} minutes`;
+                    }
+                }
+
+                // --- 3. TOTALS UPDATE FUNCTION ---
+                function updateTotals(filteredData) {
+                    let totalLessons = 0;
+                    let totalFriends = 0;
+                    let totalWriting = 0;
+                    let totalOutdoor = 0;
+
+                    filteredData.forEach(item => {
+                        totalLessons += item.lessons;
+                        totalFriends += item.friends;
+                        totalWriting += item.writing;
+                        totalOutdoor += item.outdoor;
+                    });
+
+                    // Totals display requires a container/elements in the HTML, which I've added above.
+                    const totalsContainer = document.getElementById('totalsContainer');
+                    if (totalsContainer) {
+                        document.getElementById('totalLessons').textContent = `Lessons: ${minutesToHours(totalLessons)}`;
+                        document.getElementById('totalFriends').textContent = `Jehovah's Friends: ${minutesToHours(totalFriends)}`;
+                        document.getElementById('totalWriting').textContent = `Writing: ${minutesToHours(totalWriting)}`;
+                        document.getElementById('totalOutdoor').textContent = `Outdoor: ${minutesToHours(totalOutdoor)}`;
+                    }
+                }
+
+                // --- 4. CHART INITIALIZATION ---
+                function initChart() {
+                    const ctx = document.getElementById('timeChart').getContext('2d');
+                    myTimeChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: originalData.map(item => item.date),
+                            datasets: [
+                                { label: "lessons", data: originalData.map(item => ({ x: item.date, y: item.lessons })), borderColor: "red", borderWidth: 2, fill: false, tension: 0.1 },
+                                { label: "JEHOVAH'S FRIENDS", data: originalData.map(item => ({ x: item.date, y: item.friends })), borderColor: "blue", borderWidth: 2, fill: false, tension: 0.1 },
+                                { label: "WRITING", data: originalData.map(item => ({ x: item.date, y: item.writing })), borderColor: "green", borderWidth: 2, fill: false, tension: 0.1 },
+                                { label: "OUTDOOR", data: originalData.map(item => ({ x: item.date, y: item.outdoor })), borderColor: "purple", borderWidth: 2, fill: false, tension: 0.1 }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: { min: 0, max: 60, ticks: { stepSize: 10 }, title: { display: true, text: 'Time (minutes)' } },
+                                x: { type: 'time', time: { unit: 'day', tooltipFormat: 'MMM dd, yyyy', displayFormats: { day: 'MMM d' } }, title: { display: true, text: 'Date' } }
+                            }
+                        }
+                    });
+
+                    updateTotals(originalData);
+                }
+
+                window.onload = initChart;
+
+                function filterChartData() {
+                    const startDateInput = document.getElementById('startDate').value;
+                    const endDateInput = document.getElementById('endDate').value;
+                    const startDate = startDateInput ? new Date(startDateInput) : null;
+                    const endDate = endDateInput ? new Date(endDateInput) : null;
+
+                    const filteredData = originalData.filter(item => {
+                        const itemDate = new Date(item.date);
+                        itemDate.setHours(0, 0, 0, 0);
+
+                        const isAfterStart = !startDate || itemDate >= startDate;
+                        const dayAfterEnd = endDate ? new Date(endDate.getTime() + 24 * 60 * 60 * 1000) : null;
+                        const isBeforeEnd = !dayAfterEnd || itemDate < dayAfterEnd;
+
+                        return isAfterStart && isBeforeEnd;
+                    });
+
+                    myTimeChart.data.datasets[0].data = filteredData.map(item => ({ x: item.date, y: item.lessons }));
+                    myTimeChart.data.datasets[1].data = filteredData.map(item => ({ x: item.date, y: item.friends }));
+                    myTimeChart.data.datasets[2].data = filteredData.map(item => ({ x: item.date, y: item.writing }));
+                    myTimeChart.data.datasets[3].data = filteredData.map(item => ({ x: item.date, y: item.outdoor }));
+
+                    if (filteredData.length > 0) {
+                        const firstDate = new Date(filteredData[0].date);
+                        const lastDate = new Date(filteredData[filteredData.length - 1].date);
+                        myTimeChart.options.scales.x.min = firstDate.toISOString();
+                        myTimeChart.options.scales.x.max = lastDate.toISOString();
+                    } else {
+                        myTimeChart.options.scales.x.min = undefined;
+                        myTimeChart.options.scales.x.max = undefined;
+                    }
+
+                    myTimeChart.update();
+                    updateTotals(filteredData);
+                }
+            </script>
+        </div>
+    </main>
+
+    <footer>
+        
+     <img src="./images/leon.png" alt="leon" class="footer-logo"> 
+        <h5>STUDY TRACKER for</h5>
+        <p>Keep track of your learning progress every day.</p>
+        <p>garrickkogola@gmail.com</p>
+        <div class="footer-links">
+            <a href="#">Terms of Use</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Privacy Settings</a>
+        </div>
+    </footer>
+
+    <!-- All previous GSAP/jQuery menu toggle logic has been removed as the new menu is CSS-driven -->
+
+</body>
+
+</html>
