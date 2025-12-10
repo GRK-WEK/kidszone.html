@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GIRAFFES: Few Giraffe Center</title>
+    <link rel="stylesheet" href="girrafe.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Few Giraffe Center</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Terms of Use</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Privacy Settings</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+
+        <!-- FIRST ARTICLE -->
+        <section>
+            <h2>Habitual Status of Giraffes</h2>
+            <p>Their breeding site is 120 acres = 48 hectares and 56,222.77 square meters.</p>
+            <p>The observation area from the tour deck is just 20 acres...</p>
+
+            <ol>
+                <li>Gestation period: 12 months</li>
+                <li>Nursing age: 15 months</li>
+                <li>Life span: 20–25 years in the wild; 25–30 in protected areas</li>
+                <li>Reproductive age: 4 years</li>
+            </ol>
+        </section>
+
+        <!-- TABLE SECTION -->
+        <section class="table-section">
+            <h2>Species of Giraffes in the World</h2>
+            <table>
+                <tr>
+                    <th>SPECIES</th>
+                    <th>GEOGRAPHIC RANGE</th>
+                    <th>COAT PATTERN</th>
+                    <th>NOTES</th>
+                </tr>
+                <tr>
+                    <td>NORTHERN</td>
+                    <td>East and central Africa</td>
+                    <td>Irregular darker patches</td>
+                    <td>Rare species with multiple subspecies</td>
+                </tr>
+                <tr>
+                    <td>SOUTHERN</td>
+                    <td>Southern Africa</td>
+                    <td>Rounded or star-shaped patches</td>
+                    <td>Most stable population</td>
+                </tr>
+                <tr>
+                    <td>RETICULATED</td>
+                    <td>Kenya, Ethiopia, Somalia</td>
+                    <td>Sharp polygonal patterns</td>
+                    <td>Highly distinctive</td>
+                </tr>
+                <tr>
+                    <td>MASAI</td>
+                    <td>Tanzania and Kenya</td>
+                    <td>Vine-leaf-shaped patches</td>
+                    <td>Largest giraffe species</td>
+                </tr>
+                <tr>
+                    <td>ROTHSCHILD’S</td>
+                    <td>Kenya, Uganda, Sudan</td>
+                    <td>Cream-colored lower legs</td>
+                    <td>Endangered but recovering</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- IMAGES -->
+        <section>
+            <h2>Images and Descriptions</h2>
+
+            <img class="giraffe-img" src="https://conservationmag.org/images/2022/08/11/reticulated-giraffe-male.jpg">
+            <p>The Reticulated Giraffe...</p>
+
+            <img class="giraffe-img"
+                src="https://giraffeconservation.org/wp-content/uploads/2024/11/featured-16-9_nubian-10-topaz.jpg">
+            <p>The Nubian Giraffe...</p>
+
+            <img class="giraffe-img"
+                src="https://giraffeconservation.org/wp-content/uploads/2024/11/featured-16-9_southern-in-mozambique-topaz.jpg">
+            <p>The Southern Giraffe...</p>
+
+            <img class="giraffe-img" src="https://denverzoo.org/wp-content/uploads/2018/09/giraffes_feature.jpg">
+            <p>This Reticulated Giraffe...</p>
+
+            <img class="giraffe-img"
+                src="https://giraffeconservation.org/wp-content/uploads/2024/11/featured-16-9_masai-01-topaz-1024x576.jpg">
+            <p>The Masai Giraffe...</p>
+        </section>
+
+        <!-- MAP -->
+        <section>
+            <h2>Giraffe Locations in Kenya</h2>
+            <!-- <div id="map"></div> -->
+        </section>
+
+        <!-- FORM -->
+        <section>
+            <form>
+                <h2>Visit Locations</h2>
+
+                <label for="fname">First Name:</label>
+                <input type="text" id="fname" name="fname" required>
+
+                <label for="lname">Last Name:</label>
+                <input type="text" id="lname" name="lname">
+
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="location">Choose Location:</label>
+                <select id="location" name="location">
+                    <option value="">Select a park or reserve</option>
+                    <option>Masai Mara National Reserve</option>
+                    <option>Nairobi National Park</option>
+                    <option>Lake Nakuru National Park</option>
+                    <option>Ruma National Park</option>
+                    <option>Soysambu Conservancy</option>
+                    <option>Few Giraffe Center</option>
+                </select>
+
+                <label for="questions">Questions:</label>
+                <textarea id="questions" name="questions" rows="6"></textarea>
+
+                <button type="submit">Submit Form</button>
+            </form>
+        </section>
+
+    </main>
+
+
+
+   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+    google.charts.load('current', {
+        'packages': ['map'],
+        'mapsApiKey': 'AIzaSyDhv-B5OKiU7Q1BDMpA9ahqe14tqsxDuU8' // Replace with your key!
+    });
+    google.charts.setOnLoadCallback(drawMap);
+
+    function drawMap() {
+        var data = google.visualization.arrayToDataTable([
+            ['Latitude', 'Longitude', 'Location Name'],
+            [-1.490000, 35.143890, 'Masai Mara National Reserve'],
+            [-1.352100, 36.834600, 'Nairobi National Park'],
+            [-0.366667, 36.066667, 'Lake Nakuru National Park'],
+            [-0.616667, 34.316667, 'Ruma National Park'],
+            [-0.346000, 36.200000, 'Soysambu Conservancy'],
+            [-1.366389, 36.780833, 'Giraffe Centre (Langata, Nairobi)']
+        ]);
+
+        var options = {
+            showTooltip: true,
+            showInfoWindow: true
+        };
+
+        var map = new google.visualization.Map(document.getElementById('chart_div'));
+
+        map.draw(data, options);
+    };
+</script>
+    <footer>
+        <p>&copy; 2025 Dickens Garrick</p>
+        <ul>
+            <li><a href="#">Terms of Use</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Privacy Settings</a></li>
+        </ul>
+    </footer>
+</body>
+
+</html>
